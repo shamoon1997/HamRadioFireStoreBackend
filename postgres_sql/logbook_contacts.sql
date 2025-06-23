@@ -1,0 +1,23 @@
+CREATE TABLE IF NOT EXISTS logbook_contacts (
+    id TEXT PRIMARY KEY,
+    contact_time TIMESTAMP,
+    user_id TEXT NOT NULL,
+    their_callsign TEXT,
+    my_callsign TEXT,
+    their_latitude DOUBLE PRECISION,
+    their_longitude DOUBLE PRECISION,
+    my_latitude DOUBLE PRECISION,
+    my_longitude DOUBLE PRECISION,
+    their_country TEXT,
+    my_country TEXT,
+    their_state TEXT,
+    my_state TEXT,
+    frequency TEXT,
+    band TEXT,
+    mode TEXT,
+    logbook_id TEXT NOT NULL,
+    date TIMESTAMP, 
+    contact_timestamp TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES user_profiles(id) ON DELETE CASCADE,
+    FOREIGN KEY (logbook_id) REFERENCES logbooks(id) ON DELETE CASCADE
+);
