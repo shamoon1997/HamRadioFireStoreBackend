@@ -7,8 +7,8 @@ const BATCH_SIZE = 500;
 const MAX_RECORDS = 100000;
 
 async function exportFirestoreToJsonFile() {
-  console.log(`🚀 Starting export of '${COLLECTION_NAME}' to ${OUTPUT_FILE}`);
-  console.log(`📊 Will export up to ${MAX_RECORDS} records.`);
+  console.log(`Starting export of '${COLLECTION_NAME}' to ${OUTPUT_FILE}`);
+  console.log(`Will export up to ${MAX_RECORDS} records.`);
 
   const writeStream = fs.createWriteStream(OUTPUT_FILE);
   writeStream.write("[\n");
@@ -27,11 +27,11 @@ async function exportFirestoreToJsonFile() {
 
       const snapshot = await query.get();
       if (snapshot.empty) {
-        console.log("✅ No more documents to fetch.");
+        console.log("No more documents to fetch.");
         break;
       }
 
-      console.log(`🔢 Batch #${batchNumber} fetched with ${snapshot.size} documents.`);
+      console.log(`Batch #${batchNumber} fetched with ${snapshot.size} documents.`);
 
       for (const doc of snapshot.docs) {
         if (totalCount >= MAX_RECORDS) break;
@@ -59,14 +59,14 @@ async function exportFirestoreToJsonFile() {
     writeStream.end();
 
     writeStream.on("finish", () => {
-      console.log(`🎉 Export complete: ${totalCount} records written to ${OUTPUT_FILE}`);
+      console.log(`Export complete: ${totalCount} records written to ${OUTPUT_FILE}`);
     });
 
     writeStream.on("error", (err) => {
-      console.error("❌ Write stream error:", err);
+      console.error("Write stream error:", err);
     });
   } catch (err) {
-    console.error("❌ Export failed:", err);
+    console.error("Export failed:", err);
   }
 }
 

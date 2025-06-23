@@ -17,7 +17,7 @@ const userPath = path.join(__dirname, '../data_files/userprofile.json');
 const extractTimestamp = (ts) =>
   ts && ts._seconds ? new Date(ts._seconds * 1000).toISOString() : null;
 
-// ✅ Insert Users
+//  Insert Users
 async function insertUserProfiles() {
   const users = JSON.parse(fs.readFileSync(userPath, 'utf8'));
 
@@ -42,12 +42,12 @@ async function insertUserProfiles() {
       timestamp: extractTimestamp(user.timestamp),
     });
 
-    if (error) console.error(`❌ User ${user.id} insert error:`, error.message);
+    if (error) console.error(`User ${user.id} insert error:`, error.message);
   }
-  console.log('✅ Users inserted.');
+  console.log('Users inserted.');
 }
 
-// ✅ Insert Logbooks
+// Insert Logbooks
 async function insertLogbooks() {
   const logbooks = JSON.parse(fs.readFileSync(logbookPath, 'utf8'));
 
@@ -65,12 +65,12 @@ async function insertLogbooks() {
       last_contact_timestamp: extractTimestamp(logbook.lastContactTimestamp),
     });
 
-    if (error) console.error(`❌ Logbook ${logbook.id} insert error:`, error.message);
+    if (error) console.error(`Logbook ${logbook.id} insert error:`, error.message);
   }
-  console.log('✅ Logbooks inserted.');
+  console.log('Logbooks inserted.');
 }
 
-// ✅ Insert Contacts
+// Insert Contacts
 async function insertLogbookContacts() {
   const contacts = JSON.parse(fs.readFileSync(logbookcontactPath, 'utf8'));
 
@@ -98,19 +98,19 @@ async function insertLogbookContacts() {
       contact_timestamp: extractTimestamp(contact.contactTimeStamp),
     });
 
-    if (error) console.error(`❌ Contact ${contact.id} insert error:`, error.message);
+    if (error) console.error(`Contact ${contact.id} insert error:`, error.message);
   }
-  console.log('✅ Contacts inserted.');
+  console.log('Contacts inserted.');
 }
 
-// ✅ Run
+// Run
 async function run() {
   try {
     // await insertUserProfiles();
     // await insertLogbooks();
     await insertLogbookContacts();
   } catch (err) {
-    console.error('❌ Failed:', err.message);
+    console.error('Failed:', err.message);
   }
 }
 

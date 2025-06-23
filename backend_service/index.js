@@ -1,4 +1,3 @@
-// backend_service/index.js
 const express = require('express');
 const { Pool } = require('pg');
 const cors = require('cors');
@@ -38,7 +37,7 @@ app.get('/users/:id', async (req, res) => {
     if (result.rows.length === 0) return res.status(404).json({ message: 'User not found' });
     res.json(result.rows[0]);
   } catch (err) {
-    console.error('❌ Error in /users/:id:', err.message);
+    console.error('Error in /users/:id:', err.message);
     res.status(500).json({ error: err.message });
   }
 });
@@ -50,7 +49,7 @@ app.get('/logbooks/:userId', async (req, res) => {
     const result = await pool.query('SELECT * FROM logbooks WHERE user_id = $1', [userId]);
     res.json(result.rows);
   } catch (err) {
-    console.error('❌ Error in /logbooks/:userId:', err.message);
+    console.error('Error in /logbooks/:userId:', err.message);
     res.status(500).json({ error: err.message });
   }
 });
@@ -112,7 +111,7 @@ app.get('/contacts/:userId', async (req, res) => {
       totalCount,
     });
   } catch (err) {
-    console.error('❌ Error in /contacts/:userId:', err.message);
+    console.error('Error in /contacts/:userId:', err.message);
     res.status(500).json({ error: err.message });
   }
 });
@@ -120,5 +119,5 @@ app.get('/contacts/:userId', async (req, res) => {
 
 // Start server
 app.listen(port, () => {
-  console.log(`🚀 Server is running and listening on http://localhost:${port}`);
+  console.log(`Server is running and listening on http://localhost:${port}`);
 });

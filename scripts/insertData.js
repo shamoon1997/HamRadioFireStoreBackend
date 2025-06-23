@@ -8,25 +8,25 @@ const logbookPath = path.join(__dirname, "../data_files/logbook.json");
 const userPath = path.join(__dirname, "../data_files/userprofile.json");
 
 
-// ✅ Configure PostgreSQL
+// Configure PostgreSQL
 const pool = new Pool({
-  user: 'shamoonshahid',         // e.g., 'postgres'
+  user: 'shamoonshahid',        
   host: 'localhost',
   database: 'hamradio',
   password: 'cow.7???',
   port: 5432,
 });
 
-// ✅ Helper to safely extract timestamp
+// Helper to safely extract timestamp
 const extractTimestamp = (ts) => {
   return ts && ts._seconds ? new Date(ts._seconds * 1000).toISOString() : null;
 };
 
-// ✅ Insert logbook contacts
+// Insert logbook contacts
 async function insertLogbookContacts() {
   const data = JSON.parse(fs.readFileSync(logbookcontactPath, 'utf8'));
 
-  // 🔁 Fetch all valid logbook IDs from the database
+  // Fetch all valid logbook IDs from the database
   const { rows: logbookRows } = await pool.query('SELECT id FROM logbooks');
   const validLogbookIds = new Set(logbookRows.map(row => row.id));
 
@@ -34,7 +34,7 @@ async function insertLogbookContacts() {
 
   for (const contact of data) {
     if (!validLogbookIds.has(contact.logBookId)) {
-      console.warn(`⚠️ Skipping contact ${contact.id}: logbook_id ${contact.logBookId} not found.`);
+      console.warn(`Skipping contact ${contact.id}: logbook_id ${contact.logBookId} not found.`);
       skippedCount++;
       continue;
     }
@@ -80,20 +80,19 @@ async function insertLogbookContacts() {
       );
       insertedCount++;
     } catch (err) {
-      console.error(`❌ Error inserting contact ${contact.id}:`, err.message);
+      console.error(`Error inserting contact ${contact.id}:`, err.message);
     }
   }
 
-  console.log(`✅ Logbook contacts inserted: ${insertedCount}, Skipped (invalid logbook): ${skippedCount}`);
+  console.log(`Logbook contacts inserted: ${insertedCount}, Skipped (invalid logbook): ${skippedCount}`);
 }
 
 
-// ✅ Insert logbooks
-// ✅ Insert logbooks
+// Insert logbooks
 async function insertLogbooks() {
   const data = JSON.parse(fs.readFileSync(logbookPath, 'utf8'));
 
-  console.log(`📄 Found ${data.length} logbooks to insert...`);
+  console.log(`Found ${data.length} logbooks to insert...`);
   for (const logbook of data) {
     try {
       await pool.query(
@@ -119,17 +118,17 @@ async function insertLogbooks() {
           extractTimestamp(logbook.lastContactTimestamp),
         ]
       );
-      console.log(`✅ Inserted logbook: ${logbook.id}`);
+      console.log(`Inserted logbook: ${logbook.id}`);
     } catch (err) {
-      console.error(`❌ Error inserting logbook ${logbook.id}:`, err.message);
+      console.error(`Error inserting logbook ${logbook.id}:`, err.message);
     }
   }
 
-  console.log("✅ Finished inserting logbooks.\n");
+  console.log("Finished inserting logbooks.\n");
 }
 
 
-// ✅ Insert user profiles
+// Insert user profiles
 async function insertUserProfiles() {
   const data = JSON.parse(fs.readFileSync(userPath, 'utf8'));
 
@@ -171,17 +170,17 @@ async function insertUserProfiles() {
     );
   }
 
-  console.log("✅ User profiles inserted.");
+  console.log("User profiles inserted.");
 }
 
-// ✅ Main function
+// Main function
 async function runInsert() {
   try {
     // await insertUserProfiles();
     // await insertLogbooks();
     await insertLogbookContacts();
   } catch (err) {
-    console.error("❌ Error inserting data:", err);
+    console.error("Error inserting data:", err);
   } finally {
     await pool.end();
   }
