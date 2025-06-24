@@ -1,15 +1,20 @@
 const fs = require("fs");
 const db = require("./firebase");
 
+// Changing collection Name each time 
 const COLLECTION_NAME = "UserProfile";
+// Output file where collection needs to be exported 
 const OUTPUT_FILE = `${COLLECTION_NAME.toLowerCase()}.json`;
+// Batch size in which data should be retrived
 const BATCH_SIZE = 500;
+// Maximum records 
 const MAX_RECORDS = 100000;
 
 async function exportFirestoreToJsonFile() {
   console.log(`Starting export of '${COLLECTION_NAME}' to ${OUTPUT_FILE}`);
   console.log(`Will export up to ${MAX_RECORDS} records.`);
 
+  // Creating write stream as need to write the data as streams
   const writeStream = fs.createWriteStream(OUTPUT_FILE);
   writeStream.write("[\n");
 
@@ -19,9 +24,11 @@ async function exportFirestoreToJsonFile() {
   let batchNumber = 1;
 
   try {
+    // Looping until totalCount less than the maximum records
     while (totalCount < MAX_RECORDS) {
-      console.log(`📦 Fetching batch #${batchNumber}...`);
+      console.log(`Fetching batch #${batchNumber}...`);
 
+      // Fetching the records in batches
       let query = db.collection(COLLECTION_NAME).orderBy("__name__").limit(BATCH_SIZE);
       if (lastDoc) query = query.startAfter(lastDoc);
 
@@ -51,7 +58,7 @@ async function exportFirestoreToJsonFile() {
       }
 
       lastDoc = snapshot.docs[snapshot.docs.length - 1];
-      console.log(`📤 Finished writing batch #${batchNumber} to stream. Total written: ${totalCount}`);
+      console.log(`Finished writing batch #${batchNumber} to stream. Total written: ${totalCount}`);
       batchNumber++;
     }
 

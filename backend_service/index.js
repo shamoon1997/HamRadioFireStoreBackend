@@ -78,7 +78,10 @@ app.get('/contacts/:userId', async (req, res) => {
   ];
   const allowedOrder = ['asc', 'desc'];
 
+  // Default sort Field if not provided from the FE
   const sortField = allowedSortFields.includes(sort) ? sort : 'contact_timestamp';
+  
+  // Default sort Order if not provided from the FE
   const sortOrder = allowedOrder.includes(order.toLowerCase()) ? order.toUpperCase() : 'DESC';
 
   try {
@@ -104,6 +107,7 @@ app.get('/contacts/:userId', async (req, res) => {
       )
     `;
     const countResult = await pool.query(countQuery, [userId, `%${search}%`]);
+    // Getting total count and returning it 
     const totalCount = parseInt(countResult.rows[0].count, 10);
 
     res.json({

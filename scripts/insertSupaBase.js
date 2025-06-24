@@ -3,12 +3,13 @@ const fs = require('fs');
 const path = require('path');
 const { createClient } = require('@supabase/supabase-js');
 
+// Supabase credentials
 const supabase = createClient(
   'https://jgarsrwneoyqqgolhtgm.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpnYXJzcnduZW95cXFnb2xodGdtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA2MTI5NTcsImV4cCI6MjA2NjE4ODk1N30.9VA5zWrVCZ5d0TNXMF3HkMtMNGzFCNXf_AzhlWek_54'
 );
 
-// Paths
+// Setting Paths
 const logbookcontactPath = path.join(__dirname, '../data_files/logbookcontact.json');
 const logbookPath = path.join(__dirname, '../data_files/logbook.json');
 const userPath = path.join(__dirname, '../data_files/userprofile.json');

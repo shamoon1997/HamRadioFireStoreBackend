@@ -2,7 +2,7 @@ const { Pool } = require('pg');
 const fs = require('fs');
 const path = require("path");
 
-
+// Reading each json file to insert data to correct collection 
 const logbookcontactPath = path.join(__dirname, "../data_files/logbookcontact.json");
 const logbookPath = path.join(__dirname, "../data_files/logbook.json");
 const userPath = path.join(__dirname, "../data_files/userprofile.json");
